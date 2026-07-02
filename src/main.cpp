@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <thread>
 #include <chrono>
 #include <sys/ioctl.h>
@@ -20,9 +21,9 @@ void waitinput() {
         if (getch() == 'q')
             std::exit(0);
         else if (getch() == '>' && ms > 5)
-            ms = ms - 5;
+            ms = ms - std::max((ms * ((double) 20.0 / 100.0)), 1.0);
         else if (getch() == '<')
-            ms = ms + 5;
+            ms = ms + std::max((ms * ((double) 20.0 / 100.0)), 1.0);
     }
 }
 
