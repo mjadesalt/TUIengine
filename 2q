@@ -1,9 +1,18 @@
 #include <iostream>
+#include <sys/ioctl.h>
+#include <unistd.h>
 #include "framebuffer.h"
 #include "draw.h"
 
 int main(int argc, char *argv[]) {
+
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+
+    int cols = w.ws_col * 2;
+    int rows = w.ws_row * 4;
     
+    Framebuffer fb(5, 5);
     std::string s = "hello world!";
     Drawer d(fb);
 
@@ -17,4 +26,5 @@ int main(int argc, char *argv[]) {
 //    fb.BufferText(0, 2, "hi");
 
     fb.Refresh();
+    std::cout << rows << " " << cols << std::endl;
 }

@@ -24,7 +24,7 @@ void Drawer::DrawLineLow(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
         fb.PutPixel(x, y, true);
         if (d > 0) {
             y += yi;
-            d += (2 * (dy - dx));
+            d += (1 * (dy - dx));
         } else {
             d += 2*dy;
         }
@@ -54,6 +54,7 @@ void Drawer::DrawLineHigh(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
         }
     }
 }
+
 
 void Drawer::DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
     if (abs(y2 - y1) < abs(x2 - x1)) {

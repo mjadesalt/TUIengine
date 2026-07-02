@@ -3,15 +3,15 @@
 #include <string>
 #include "framebuffer.h"
 
-uint8_t Framebuffer::GetWidth() {
+uint16_t Framebuffer::GetWidth() {
     return fbwidth;
 }
 
-uint8_t Framebuffer::GetHeight() {
+uint16_t Framebuffer::GetHeight() {
     return fbwidth;
 }
 
-void Framebuffer::PutPixel(uint8_t x, uint8_t y, bool state) {
+void Framebuffer::PutPixel(uint16_t x, uint16_t y, bool state) {
     uint8_t bit;
     if (state)
         bit = 0b10000000;
@@ -80,7 +80,7 @@ std::string Framebuffer::UnicodeToUTF8(unsigned int codepoint)
     return out;
 }
 
-uint8_t Framebuffer::GetByte(uint8_t x, uint8_t y) {
+uint8_t Framebuffer::GetByte(uint16_t x, uint16_t y) {
     uint8_t byte = 0;
     uint8_t mask = 0b11000000;
     uint8_t offset = (x % 4) * 2;
@@ -97,6 +97,7 @@ uint8_t Framebuffer::GetByte(uint8_t x, uint8_t y) {
 
 std::string Framebuffer::BitmapToBraille() {
     // get all the bits and append them to a buffer
+    buffer = "";
     for (int i = 0; i < fbheight; i++) {
         for (int j = 0; j < fbwidth; j++) {
            buffer.append(UnicodeToUTF8(0x2800 + ByteToBraille(GetByte(j, i)))); 
@@ -106,7 +107,7 @@ std::string Framebuffer::BitmapToBraille() {
 //    for (int i = 0; i < fbwidth; i++)
 //        buffer.append("-");
 
-    buffer.append("\n");
+//    buffer.append("\n");
     return buffer;
 }
 
@@ -123,9 +124,10 @@ void Framebuffer::BufferText(uint16_t x, uint16_t y, std::string msg) {
 }
 	
 void Framebuffer::Refresh() {
-    std::cout << buffer;
+    std::cout /*<< "\033[H" */<< buffer;
+    std::cout << buffer.length();
 }
 
 // we add 3 to prevent garbage data at the end with getbyte()
-Framebuffer::Framebuffer(uint8_t x, uint8_t y) : fb(x * (y + 3)), fbwidth(x), fbheight(y), buffer("") {
+Framebuffer::Framebuffer(uint16_t x, uint16_t y) : fb(x * (y)), fbwidth(x), fbheight(y), buffer("") {
 }
