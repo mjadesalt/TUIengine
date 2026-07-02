@@ -18,13 +18,11 @@ void Drawer::DrawLineLow(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
     int16_t d = (2 * dy) - dx;
     int16_t y = y1;
 
-
-
     for (int x = x1; x <= x2; x++) {
         fb.PutPixel(x, y, true);
         if (d > 0) {
             y += yi;
-            d += (1 * (dy - dx));
+            d += (2 * (dy - dx));
         } else {
             d += 2*dy;
         }

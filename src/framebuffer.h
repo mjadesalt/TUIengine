@@ -20,6 +20,8 @@ uint16_t GetWidth();
 
 uint16_t GetHeight();
 
+void Clear();
+
 void PutPixel(uint16_t x, uint16_t y, bool state);
 
 // swap bits a and b in a byte
